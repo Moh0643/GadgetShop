@@ -1,0 +1,140 @@
+import java.util.Scanner;
+
+public class Gadget {
+    private String model;
+    private double price;
+    private double weight;
+    private String size;
+
+    public Gadget(String model, double price, float weight, String size) {
+
+        this.price = price;
+        this.weight = weight;
+        this.size = size;
+    }
+
+    public void displayInfo() {
+        System.out.println("Gadget: ");
+        System.out.println("Price: " + price);
+        System.out.println("Weight: " + weight + " grams");
+        System.out.println("Size: " + size);
+    }
+
+    public void increasePrice(float amount) {
+        price += amount;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.println("Please enter the model:");
+        String model = scanner.nextLine();
+        
+        System.out.println("Please enter the price (in ):");
+        double price = Float.parseFloat(scanner.next());
+        
+        System.out.println("Please enter the weight (in grams):");
+        float weight = Float.parseFloat(scanner.next());
+        
+        System.out.println("Please enter the size (in mm):");
+        String size = scanner.nextLine();
+        
+        scanner.close();
+       
+       Gadget gadget = new Gadget(model, price, weight, size);
+       gadget.displayInfo();
+       
+      
+    }
+}
+
+public class Mobile extends Gadget {
+    private int callingCreditMinutes;
+
+    public Mobile(String model, String brand, float price, float weight, String size, int callingCreditMinutes) {
+        super(model, price, weight, size);
+        this.callingCreditMinutes = callingCreditMinutes;
+    }
+
+    public int getCallingCreditMinutes() {
+        return callingCreditMinutes;
+    }
+
+    public void addCallingCredit(int creditToAdd) {
+        if (creditToAdd > 0) {
+            callingCreditMinutes += creditToAdd;
+            System.out.println("Calling credit added successfully.");
+        } else {
+            System.out.println("Please enter a positive amount to add calling credit.");
+        }
+    }
+
+    public void makeCall(String phoneNumber, int callDuration) {
+        if (callingCreditMinutes >= callDuration) {
+            System.out.println("Making call to " + phoneNumber + " for " + callDuration + " minutes.");
+            callingCreditMinutes -= callDuration;
+        } else {
+            System.out.println("Insufficient calling credit to make the call.");
+        }
+    }
+
+    @Override
+    public void displayInfo() {
+        super.displayInfo();
+        System.out.println("Calling credit remaining: " + callingCreditMinutes + " minutes");
+    }
+
+    public static void main(String[] args) {
+        Mobile mobile = new Mobile("Phone", "Apple", 999, 150, "(71mm x 137mm x 61mm)", 100);
+        mobile.displayInfo(); 
+
+        mobile.addCallingCredit(50); 
+        mobile.displayInfo(); 
+
+        mobile.makeCall("123456789", 30); 
+        mobile.displayInfo(); 
+    }
+}
+public class MP3 extends Gadget {
+    private int availableMemory;
+
+    public MP3(String model, String brand, double price, float weight, String size, int availableMemory) {
+        super(model, price, weight, size);
+        this.availableMemory = availableMemory;
+    }
+
+    public int getAvailableMemory() {
+        return availableMemory;
+    }
+
+    public void downloadMusic(int musicSize) {
+        if (musicSize <= availableMemory) {
+            availableMemory -= musicSize;
+            System.out.println("Music downloaded successfully.");
+        } else {
+            System.out.println("Insufficient memory to download music.");
+        }
+    }
+
+    public void deleteMusic(int musicSize) {
+        availableMemory += musicSize;
+        System.out.println("Music deleted successfully.");
+    }
+
+    @Override
+    public void displayInfo() {
+        super.displayInfo();
+        System.out.println("Available memory: " + availableMemory + " MB");
+    }
+
+    public static void main(String[] args) {
+        MP3 mp3Player = new MP3("MP3 Player", "Sony", 99.99, 50, "(50mm x 100mm x 10mm)", 1000);
+        mp3Player.displayInfo(); // Display initial MP3 player details
+
+        mp3Player.downloadMusic(200); // Download music
+        mp3Player.displayInfo(); // Display updated MP3 player details
+
+        mp3Player.deleteMusic(100); // Delete music
+        mp3Player.displayInfo(); // Display updated MP3 player details
+    }
+}
